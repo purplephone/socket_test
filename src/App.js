@@ -1,23 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import { useRef, useState } from 'react';
 
 function App() {
+  const chat = useRef(null)
+  const [text, setText] = useState("")
+
+  const toServer = () => {
+    console.log("서버로")
+  }
+  
+  // fromServer
+  const receiveChat = (receiveText) => {
+    chat.current.value += "받은 말:" +  receiveText + "\n"
+  }
+
+  const chatting = () => {
+    // toServer
+    toServer()
+
+    chat.current.value += "보내는 말:" +  text + "\n"
+    setText("")
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <textarea ref={chat} rows="40" cols="50"></textarea>
+      <hr></hr>
+      입력 : <input value={text} onChange={(e) => {
+        setText(e.target.value)
+      }} type="text"></input>
+
+      <button onClick={chatting}>버튼</button>
     </div>
   );
 }
